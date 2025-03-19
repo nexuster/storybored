@@ -35,11 +35,7 @@ window.onload = function() {
     canvas.addEventListener("mousemove", function(event) {
         if (mouseDown) {
             coordinate(event);
-            interpolateBrush(
-                prevX - (brushSize + 0), prevY - (brushSize + 20),
-                x - (brushSize + 0), y - (brushSize + 20),
-                brushSize, ctx
-            );
+            interpolateBrush(prevX, prevY, x, y, brushSize, ctx);
             prevX = x;
             prevY = y;
         }
@@ -53,7 +49,7 @@ function interpolateBrush(x1, y1, x2, y2, size, ctx) {
         const x = x1 + Math.cos(angle) * i;
         const y = y1 + Math.sin(angle) * i;
         ctx.beginPath();
-        ctx.rect(x, y, size, size);
+        ctx.rect(x - size / 2, y - size / 2, size, size); // Center the rectangle on the cursor
         ctx.fillStyle = '#000000';
         ctx.fill();
         ctx.closePath();
