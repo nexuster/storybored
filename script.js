@@ -1,4 +1,4 @@
-let x, y, size = 10;
+let x, y, brushSize = 10;
 
 let mouseDown = false;
 
@@ -8,6 +8,17 @@ function coordinate(event) {
 }
 
 window.onload = function() {
+    const size = document.getElementById('slider');
+    const bsize = document.getElementById('bsize').textContent;
+
+    slider.addEventListener('input', function() {
+        bsize = 'brush-size: ' + size.value;
+    });
+
+    brushSize = size.value;
+
+        ///////////////////
+
     const canvas = document.getElementById("spanel");
     const ctx = canvas.getContext("2d");
 
@@ -22,7 +33,7 @@ window.onload = function() {
         coordinate(event);
         if (mouseDown) {
             ctx.beginPath();
-            ctx.rect(x - size, y - size, size, size);
+            ctx.rect(x, y, brushSize, brushSize);
             ctx.fillStyle = '#000000';
             ctx.fill();
         }
