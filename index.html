@@ -10,11 +10,14 @@
     <div id="canv">
       <div id="controls">
         <div id="bsize">brush-size: <input id="bs"></input></div>
-        <input class="range" type="range" id="size" min="5" max="1000" step="1" value="12">
-        <!-- <button id"undo">Undo</button> -->
-        Eraser: <input id="eraserButton" type="checkbox">
+        <input class="range" type="range" id="size" min="5" max="200" step="1" value="12">
+        <button id"undo">Undo</button>
       </div>
       <canvas id="spanel" width="430" height="360"></canvas>
+      <div id="tools">
+        eraser: <input id="eraserButton" type="checkbox">
+        <button >clear canvas</button>
+      </div>
     </div>
     <script src="script.js" defer></script>
   </body>

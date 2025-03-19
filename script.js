@@ -1,7 +1,6 @@
 let x, y, brushSize;
 let prevX, prevY;
 let mouseDown = false;
-let canvasHistory = [];
 let historyStep = -1;
 
 function coordinate(event) {
@@ -10,21 +9,22 @@ function coordinate(event) {
     y = event.clientY - rect.top;
 }
 
-function saveState(canvas, history, step) {
-    if (step < history.length - 1) {
-        history.length = step + 1;
-    }
-    history.push(canvas.toDataURL());
+function saveState(canvas, step) {
+    const dataURL = canvas.toDataURL();
+    localStorage.setItem('canvasState' + step, dataURL);
     return ++step;
 }
 
-function restoreState(ctx, history, step) {
-    const img = new Image();
-    img.src = history[step];
-    img.onload = function() {
-        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-        ctx.drawImage(img, 0, 0);
-    };
+function restoreState(ctx, step) {
+    const dataURL = localStorage.getItem('canvasState' + step);
+    if (dataURL) {
+        const img = new Image();
+        img.src = dataURL;
+        img.onload = function() {
+            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+            ctx.drawImage(img, 0, 0);
+        };
+    }
 }
 
 window.onload = function() {
@@ -36,19 +36,20 @@ window.onload = function() {
 
     size.addEventListener('input', function() {
         brushSize = size.value;
-        sizeInput.value = brushSize
+        sizeInput.value = brushSize;
     });
 
     sizeInput.addEventListener('input', function() {
         brushSize = sizeInput.value;
         size.value = brushSize;
-    })
+    });
 
     const canvas = document.getElementById("spanel");
     const ctx = canvas.getContext("2d");
 
-    historyStep = saveState(canvas, canvasHistory, historyStep)
-    
+    // Save initial state
+    historyStep = saveState(canvas, historyStep);
+
     const eraserCheck = document.getElementById("eraserButton");
 
     canvas.addEventListener("mousedown", function(event) {
@@ -60,15 +61,16 @@ window.onload = function() {
 
     canvas.addEventListener("mouseup", function(event) {
         mouseDown = false;
-        historyStep = saveState(canvas, canvasHistory, historyStep);
+        // Save state after drawing
+        historyStep = saveState(canvas, historyStep);
     });
 
     canvas.addEventListener("mousemove", function(event) {
         if (mouseDown) {
-            let col = '#000000'
+            let col = '#000000';
             coordinate(event);
             if (eraserCheck.checked) {
-                col = '#ffffff'
+                col = '#ffffff';
             }
             interpolateBrush(prevX, prevY, x, y, brushSize, ctx, col);
             prevX = x;
@@ -79,7 +81,7 @@ window.onload = function() {
     undoButton.addEventListener("click", function() {
         if (historyStep > 0) {
             historyStep--;
-            restoreState(ctx, canvasHistory, historyStep);
+            restoreState(ctx, historyStep);
         }
     });
 };
