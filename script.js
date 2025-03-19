@@ -3,8 +3,9 @@ let prevX, prevY;
 let mouseDown = false;
 
 function coordinate(event) {
-    x = event.clientX;
-    y = event.clientY;
+    const rect = event.target.getBoundingClientRect();
+    x = event.clientX - rect.left;
+    y = event.clientY - rect.top;
 }
 
 window.onload = function() {
@@ -49,7 +50,7 @@ function interpolateBrush(x1, y1, x2, y2, size, ctx) {
         const x = x1 + Math.cos(angle) * i;
         const y = y1 + Math.sin(angle) * i;
         ctx.beginPath();
-        ctx.rect(x - size / 2, y - size / 2, size, size); // Center the rectangle on the cursor
+        ctx.rect(x, y, size, size); // Center the rectangle on the cursor
         ctx.fillStyle = '#000000';
         ctx.fill();
         ctx.closePath();
