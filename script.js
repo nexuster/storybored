@@ -35,7 +35,6 @@ window.onload = function() {
     const sizeInput = document.getElementById('bs');
 
     size.addEventListener('input', function() {
-        bsize.textContent = 'brush-size: ' + size.value;
         brushSize = size.value;
         sizeInput.value = brushSize
     });
