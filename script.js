@@ -46,8 +46,8 @@ window.onload = function() {
 
     const canvas = document.getElementById("spanel");
     const ctx = canvas.getContext("2d");
+    const clearButton = document.getElementById("clearc");
 
-    // Save initial state
     historyStep = saveState(canvas, historyStep);
 
     const eraserCheck = document.getElementById("eraserButton");
@@ -61,7 +61,6 @@ window.onload = function() {
 
     canvas.addEventListener("mouseup", function(event) {
         mouseDown = false;
-        // Save state after drawing
         historyStep = saveState(canvas, historyStep);
     });
 
@@ -78,12 +77,20 @@ window.onload = function() {
         }
     });
 
+
     undoButton.addEventListener("click", function() {
         if (historyStep > 0) {
             historyStep--;
             restoreState(ctx, historyStep);
         }
     });
+
+    clearButton.addEventListener("click", function() {
+        ctx.rect(0,0,ctx.canvas.width,ctx.canvas.height);
+        ctx.fillStyle = '#ffffff';
+        ctx.fill();
+        ctx.closePath();
+    })
 };
 
 function interpolateBrush(x1, y1, x2, y2, size, ctx, col) {
@@ -99,3 +106,11 @@ function interpolateBrush(x1, y1, x2, y2, size, ctx, col) {
         ctx.closePath();
     }
 }
+
+window.onbeforeunload = function(event) {
+    const message = "you forgot to save... are you sure??";
+    if (event) {
+        event.returnValue = message;
+    }
+    return message;
+};
