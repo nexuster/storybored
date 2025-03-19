@@ -41,6 +41,7 @@ window.onload = function() {
 
     sizeInput.addEventListener('input', function() {
         brushSize = sizeInput.value;
+        size.value = brushSize;
     })
 
     const canvas = document.getElementById("spanel");
