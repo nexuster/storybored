@@ -30,7 +30,7 @@ function restoreState(ctx, history, step) {
 window.onload = function() {
     const size = document.getElementById('size');
     let bsize = document.getElementById('bsize');
-    const undoButton = document.getElementById('undoButton');
+    const undoButton = document.getElementById('undo');
 
     const sizeInput = document.getElementById('bs');
 
