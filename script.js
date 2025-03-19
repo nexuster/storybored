@@ -1,5 +1,5 @@
-let x, y, brushSize = 10;
-
+let x, y, brushSize;
+let prevX, prevY;
 let mouseDown = false;
 
 function coordinate(event) {
@@ -8,34 +8,42 @@ function coordinate(event) {
 }
 
 window.onload = function() {
-    const size = document.getElementById('slider');
-    const bsize = document.getElementById('bsize').textContent;
+    const size = document.getElementById('size');
+    let bsize = document.getElementById('bsize');
 
-    slider.addEventListener('input', function() {
-        bsize = 'brush-size: ' + size.value;
+    size.addEventListener('input', function() {
+        bsize.textContent = 'brush-size: ' + size.value;
+        brushSize = size.value;
     });
 
     brushSize = size.value;
-
-        ///////////////////
 
     const canvas = document.getElementById("spanel");
     const ctx = canvas.getContext("2d");
 
     canvas.addEventListener("mousedown", function(event) {
         mouseDown = true;
+        coordinate(event);
+        prevX = x;
+        prevY = y;
     });
+
     canvas.addEventListener("mouseup", function(event) {
         mouseDown = false;
     });
 
     canvas.addEventListener("mousemove", function(event) {
-        coordinate(event);
         if (mouseDown) {
+            coordinate(event);
             ctx.beginPath();
-            ctx.rect(x, y, brushSize, brushSize);
-            ctx.fillStyle = '#000000';
-            ctx.fill();
+            ctx.moveTo(prevX, prevY);
+            ctx.lineTo(x, y);
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = brushSize;
+            ctx.stroke();
+            ctx.closePath();
+            prevX = x;
+            prevY = y;
         }
-    })
-}
+    });
+};

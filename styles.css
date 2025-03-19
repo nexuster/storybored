@@ -3,7 +3,10 @@ body {
     color: white;
 }
 
+#canv {
+    border: 6px solid blueviolet;
+}
+
 canvas {
     background-color: white;
-    border: 12px solid blueviolet;
 }
