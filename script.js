@@ -36,8 +36,8 @@ window.onload = function() {
         if (mouseDown) {
             coordinate(event);
             interpolateBrush(
-                prevX - brushSize, prevY - brushSize,
-                x - brushSize, y - brushSize,
+                prevX - (brushSize + 100), prevY - (brushSize + 20),
+                x - (brushSize + 20), y - (brushSize + 20),
                 brushSize, ctx
             );
             prevX = x;
