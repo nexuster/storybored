@@ -1,4 +1,5 @@
-let x, y, radius = 5;
+let x, y, size = 10;
+
 function coordinate(event) {
     x = event.clientX;
     y = event.clientY;
@@ -11,7 +12,7 @@ window.onload = function() {
     canvas.addEventListener("mousedown", function(event) {
         coordinate(event);
         ctx.beginPath();
-        ctx.arc(x, y, radius, 0, 2 * Math.PI);
+        ctx.rect(x - size / 2, y - size / 2, size, size);
         ctx.fillStyle = '#000000';
         ctx.fill();
     });
