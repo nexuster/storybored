@@ -12,6 +12,8 @@ window.onload = function() {
         coordinate(event);
         ctx.beginPath();
         ctx.arc(x, y, radius, 0, 2 * Math.PI);
+        ctx.fillStyle = '#000000';
+        ctx.fill();
     });
 
     canvas.addEventListener("mouseup", function(event) {
