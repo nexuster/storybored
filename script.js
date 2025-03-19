@@ -35,7 +35,7 @@ window.onload = function() {
     canvas.addEventListener("mousemove", function(event) {
         if (mouseDown) {
             coordinate(event);
-            interpolateBrush(prevX, prevY, x, y, brushSize, ctx);
+            interpolateBrush(prevX, prevY, x + brushSize, y + brushSize, brushSize, ctx);
             prevX = x;
             prevY = y;
         }
