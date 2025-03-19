@@ -10,12 +10,13 @@ body {
 
 canvas {
     background-color: white;
+    cursor: crosshair;
 }
 
 .range {
   -webkit-appearance: none;
   appearance: none;
-  width: 100%;
+  width: 25%;
   height: 25px;
   background: blueviolet;
   outline: none;
@@ -33,14 +34,14 @@ canvas {
   -webkit-appearance: none;
   appearance: none;
   width: 25px;
-  height: 25px;
+  height: 32px;
   background: #e9c5ff;
   cursor: pointer;
 }
 
 .range::-moz-range-thumb {
   width: 25px;
-  height: 25px;
-  background: #04AA6D;
+  height: 32px;
+  background: #e9c5ff;
   cursor: pointer;
 }

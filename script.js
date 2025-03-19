@@ -47,7 +47,9 @@ window.onload = function() {
     const canvas = document.getElementById("spanel");
     const ctx = canvas.getContext("2d");
 
-    historyStep = saveState(canvas, canvasHistory, historyStep);
+    historyStep = saveState(canvas, canvasHistory, historyStep)
+    
+    const eraserCheck = document.getElementById("eraserButton");
 
     canvas.addEventListener("mousedown", function(event) {
         mouseDown = true;
@@ -63,8 +65,12 @@ window.onload = function() {
 
     canvas.addEventListener("mousemove", function(event) {
         if (mouseDown) {
+            let col = '#000000'
             coordinate(event);
-            interpolateBrush(prevX, prevY, x, y, brushSize, ctx);
+            if (eraserCheck.checked) {
+                col = '#ffffff'
+            }
+            interpolateBrush(prevX, prevY, x, y, brushSize, ctx, col);
             prevX = x;
             prevY = y;
         }
@@ -78,7 +84,7 @@ window.onload = function() {
     });
 };
 
-function interpolateBrush(x1, y1, x2, y2, size, ctx) {
+function interpolateBrush(x1, y1, x2, y2, size, ctx, col) {
     const distance = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
     const angle = Math.atan2(y2 - y1, x2 - x1);
     for (let i = 0; i < distance; i++) {
@@ -86,7 +92,7 @@ function interpolateBrush(x1, y1, x2, y2, size, ctx) {
         const y = y1 + Math.sin(angle) * i;
         ctx.beginPath();
         ctx.rect(x - size / 2, y - size / 2, size, size);
-        ctx.fillStyle = '#000000';
+        ctx.fillStyle = col;
         ctx.fill();
         ctx.closePath();
     }
