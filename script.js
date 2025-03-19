@@ -1,6 +1,8 @@
 let x, y, brushSize;
 let prevX, prevY;
 let mouseDown = false;
+let canvasHistory = [];
+let historyStep = -1;
 
 function coordinate(event) {
     const rect = event.target.getBoundingClientRect();
@@ -8,19 +10,44 @@ function coordinate(event) {
     y = event.clientY - rect.top;
 }
 
+function saveState(canvas, history, step) {
+    if (step < history.length - 1) {
+        history.length = step + 1;
+    }
+    history.push(canvas.toDataURL());
+    return ++step;
+}
+
+function restoreState(ctx, history, step) {
+    const img = new Image();
+    img.src = history[step];
+    img.onload = function() {
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        ctx.drawImage(img, 0, 0);
+    };
+}
+
 window.onload = function() {
     const size = document.getElementById('size');
     let bsize = document.getElementById('bsize');
+    const undoButton = document.getElementById('undoButton');
+
+    const sizeInput = document.getElementById('bs');
 
     size.addEventListener('input', function() {
         bsize.textContent = 'brush-size: ' + size.value;
         brushSize = size.value;
+        sizeInput.value = brushSize
     });
 
-    brushSize = size.value;
+    sizeInput.addEventListener('input', function() {
+        brushSize = sizeInput.value;
+    })
 
     const canvas = document.getElementById("spanel");
     const ctx = canvas.getContext("2d");
+
+    historyStep = saveState(canvas, canvasHistory, historyStep);
 
     canvas.addEventListener("mousedown", function(event) {
         mouseDown = true;
@@ -31,6 +58,7 @@ window.onload = function() {
 
     canvas.addEventListener("mouseup", function(event) {
         mouseDown = false;
+        historyStep = saveState(canvas, canvasHistory, historyStep);
     });
 
     canvas.addEventListener("mousemove", function(event) {
@@ -39,6 +67,13 @@ window.onload = function() {
             interpolateBrush(prevX, prevY, x, y, brushSize, ctx);
             prevX = x;
             prevY = y;
+        }
+    });
+
+    undoButton.addEventListener("click", function() {
+        if (historyStep > 0) {
+            historyStep--;
+            restoreState(ctx, canvasHistory, historyStep);
         }
     });
 };
@@ -50,7 +85,7 @@ function interpolateBrush(x1, y1, x2, y2, size, ctx) {
         const x = x1 + Math.cos(angle) * i;
         const y = y1 + Math.sin(angle) * i;
         ctx.beginPath();
-        ctx.rect(x, y, size, size); // Center the rectangle on the cursor
+        ctx.rect(x - size / 2, y - size / 2, size, size);
         ctx.fillStyle = '#000000';
         ctx.fill();
         ctx.closePath();
