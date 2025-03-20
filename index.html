@@ -7,18 +7,22 @@
     <link rel="stylesheet" href="styles.css"/>
   </head>
   <body>
-    <div id="canv">
-      <div id="controls">
-        <div id="bsize">brush-size: <input id="bs"></input></div>
-        <input class="range" type="range" id="size" min="5" max="200" step="1" value="12">
-        <button id"undo">Undo</button>
-      </div>
-      <canvas id="spanel" width="430" height="360"></canvas>
-      <div id="tools">
-        eraser: <input id="eraserButton" type="checkbox">
-        <button id="clearc">clear canvas</button>
+    <div class="panelContainer">
+      <div id="canv">
+        <div id="controls">
+          <div id="bsize">brush-size: <input id="bs"></input></div>
+          <input class="range" type="range" id="size" min="5" max="200" step="1" value="12">
+          <button id"undo">Undo</button>
+        </div>
+        <canvas id="spanel" width="430" height="360"></canvas>
+        <div id="tools">
+          eraser: <input id="eraserButton" type="checkbox">
+          <button id="clearc">clear canvas</button>
+        </div>
       </div>
     </div>
-    <script src="script.js" defer></script>
+    <button id="new">+</button>
+    <script src="script.js"></script>
+    <script src="panel-handler.js" defer></script>
   </body>
 </html>
