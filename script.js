@@ -86,7 +86,8 @@ window.onload = function() {
     });
 
     clearButton.addEventListener("click", function() {
-        ctx.rect(0,0,ctx.canvas.width,ctx.canvas.height);
+        ctx.beginPath();
+        ctx.rect(0,0,canvas.width,canvas.height);
         ctx.fillStyle = '#ffffff';
         ctx.fill();
         ctx.closePath();
