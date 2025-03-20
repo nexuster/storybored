@@ -46,9 +46,9 @@ window.onload = function() {
 
     const canvas = document.getElementById("spanel");
     const ctx = canvas.getContext("2d");
-    const clearButton = document.getElementById("clearc");
+    // const clearButton = document.getElementById("clearc");
 
-    historyStep = saveState(canvas, historyStep);
+    // historyStep = saveState(canvas, historyStep);
 
     const eraserCheck = document.getElementById("eraserButton");
 
