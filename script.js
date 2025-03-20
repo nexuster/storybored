@@ -85,13 +85,13 @@ window.onload = function() {
         }
     });
 
-    clearButton.addEventListener("click", function() {
-        ctx.beginPath();
-        ctx.rect(0,0,canvas.width,canvas.height);
-        ctx.fillStyle = '#ffffff';
-        ctx.fill();
-        ctx.closePath();
-    })
+    // clearButton.addEventListener("click", function() {
+    //     ctx.beginPath();
+    //     ctx.rect(0,0,canvas.width,canvas.height);
+    //     ctx.fillStyle = '#ffffff';
+    //     ctx.fill();
+    //     ctx.closePath();
+    // })
 };
 
 function interpolateBrush(x1, y1, x2, y2, size, ctx, col) {
